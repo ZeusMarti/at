@@ -43,7 +43,7 @@ def test_find_orbit4_with_two_refpts_with_and_without_guess(dba_lattice):
     assert_close(all_points, expected, atol=1e-12)
     _, all_points = physics.find_orbit4(dba_lattice, DP, [49, 99],
                                         numpy.array([0., 0., 0., 0., DP, 0.]))
-    assert_close(all_points, expected, atol=1e-12)
+    assert_close(all_points, expected, rtol=0, atol=1e-12)
 
 
 def test_orbit_maxiter_warnings(hmba_lattice):
@@ -68,15 +68,24 @@ def test_find_m44_returns_same_answer_as_matlab(dba_lattice, refpts):
 
 @pytest.mark.parametrize('refpts', ([145], [20], [1, 2, 3]))
 def test_find_m66(hmba_lattice, refpts):
-    m66, mstack = physics.find_m66(hmba_lattice, refpts=refpts)
-    expected = numpy.array(
-        [[-0.735654, 4.673766, 0., 0., 2.997161e-3, 0.],
-         [-9.816788e-2, -0.735654, 0., 0., 1.695263e-4, 0.],
-         [0., 0., 0.609804, -2.096051, 0., 0.],
-         [0., 0., 0.299679, 0.609799, 0., 0.],
-         [0., 0., 0., 0., 1., 0.],
-         [1.695128e-4, 2.997255e-3, 0., 0., 2.243281e-3, 1.]])
-    assert_close(m66, expected, rtol=1e-5, atol=1e-7)
+    lattice = hmba_lattice.radiation_on(copy=True)
+    m66, mstack = physics.find_m66(lattice, refpts=refpts)
+    pm66=numpy.array(
+        [[-7.35631091e-01,  4.67371402e+00,  0.00000000e+00,  0.00000000e+00, 2.99851473e-03, -6.27694955e-07],
+         [-9.81662164e-02, -7.35666318e-01,  0.00000000e+00,  0.00000000e+00, 1.69015223e-04, -3.53807757e-08],
+         [-3.40876119e-29, -1.62685015e-28,  6.09804486e-01, -2.09602924e+00, 2.72720546e-30, -5.78385941e-34],
+         [-4.98013035e-30, -6.47275262e-29,  2.99675180e-01,  6.09800210e-01, -1.29054569e-29, 2.69886581e-33],
+         [1.22308593e-06,   2.16108213e-05,  0.00000000e+00,  0.00000000e+00, 9.99980691e-01, -2.09331258e-04],
+         [1.70098657e-04,   2.99580777e-03,  0.00000000e+00,  0.00000000e+00, 2.24326044e-03,  9.99999542e-01]])
+    mm66 =  numpy.array(
+        [[-0.7356310906, 4.6737140224, 0.0000000000, 0.0000000000, 0.0029985147, -0.0000006277],
+        [-0.0981662164, -0.7356663182, 0.0000000000, 0.0000000000, 0.0001690152, -0.0000000354],
+        [0.0000000000, 0.0000000000, 0.6098044855, -2.0960292422, 0.0000000000, 0.0000000000],
+        [0.0000000000, 0.0000000000, 0.2996751798, 0.6098002098, 0.0000000000, 0.0000000000],
+        [0.0000012231, 0.0000216108, 0.0000000000, 0.0000000000, 0.9999806914, -0.0002093313],
+        [0.0001700789, 0.0029957908, 0.0000000000, 0.0000000000, 0.0022432341, 0.9999995314]])
+    assert_close(m66, pm66, rtol=0, atol=1e-8)
+    assert_close(m66, mm66, rtol=0, atol=1e-7)
     stack_size = 0 if refpts is None else len(refpts)
     assert mstack.shape == (stack_size, 6, 6)
 
@@ -119,7 +128,8 @@ def test_find_orbit6(hmba_lattice):
     mexp = numpy.array([-2.63520320e-09, -1.45845186e-10, 0.0,
                                     0.0, -6.69677955e-06, -5.88436653e-02])
     orbit6, _ = physics.find_orbit6(lattice)
-    assert_close(orbit6, mexp, atol=1e-20)
+    assert_close(orbit6, mexp, rtol=0, atol=1e-10)
+    assert_close(orbit6, pexp, rtol=0, atol=1e-10)
 
 
 def test_find_orbit6_raises_AtError_if_there_is_no_cavity(dba_lattice):
