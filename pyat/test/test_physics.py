@@ -112,10 +112,14 @@ def test_find_sync_orbit_finds_zeros(dba_lattice):
 
 def test_find_orbit6(hmba_lattice):
     lattice = hmba_lattice.radiation_on(copy=True)
-    expected = numpy.array([-2.63520321e-09, -1.45845186e-10, -4.54395831e-30,
-                             2.40748378e-31, -6.69677956e-06, -5.88436653e-02])
+    # python result
+    pexp = numpy.array([-2.63520321e-09, -1.45845186e-10, -4.54395831e-30,
+                         2.40748378e-31, -6.69677956e-06, -5.88436653e-02])
+    # matlab result
+    mexp = numpy.array([-2.63520320e-09, -1.45845186e-10, 0.0,
+                                    0.0, -6.69677955e-06, -5.88436653e-02])
     orbit6, _ = physics.find_orbit6(lattice)
-    assert_close(orbit6, expected, atol=1e-20)
+    assert_close(orbit6, mexp, atol=1e-20)
 
 
 def test_find_orbit6_raises_AtError_if_there_is_no_cavity(dba_lattice):
