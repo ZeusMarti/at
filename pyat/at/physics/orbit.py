@@ -11,7 +11,7 @@ import warnings
 
 __all__ = ['find_orbit4', 'find_sync_orbit', 'find_orbit6']
 
-STEP_SIZE = 1e-6
+STEP_SIZE = 1e-8
 MAX_ITERATIONS = 20
 CONVERGENCE = 1e-12
 

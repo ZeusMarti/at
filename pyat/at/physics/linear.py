@@ -12,7 +12,7 @@ from .harmonic_analysis import get_tunes_harmonic
 __all__ = ['linopt', 'avlinopt', 'get_mcf', 'get_tune',
            'get_chrom']
 
-DDP = 1e-8
+DDP = 1e-6
 
 _jmt = jmat(1)
 

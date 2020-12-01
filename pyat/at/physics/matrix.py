@@ -12,8 +12,8 @@ from at.physics import find_orbit4, find_orbit6, jmat, symplectify
 
 __all__ = ['find_m44', 'find_m66', 'find_elem_m66', 'gen_m66_elem']
 
-XYDEFSTEP = 6.055454452393343e-006  # Optimal delta?
-DPSTEP = 6.055454452393343e-006  # Optimal delta?
+XYDEFSTEP = 1.E-8
+DPSTEP = 1.E-6
 
 _jmt = jmat(2)
 
