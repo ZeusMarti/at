@@ -145,7 +145,7 @@ def find_m66(ring, refpts=None, orbit=None, keep_lattice=False, **kwargs):
 
     # Construct matrix of plus and minus deltas
     scaling = numpy.array([xy_step, xy_step, xy_step,
-                           xy_step, dp_step, dp_step])
+                           xy_step, xy_step, xy_step])
     dg = numpy.asfortranarray(0.5 * numpy.diag(scaling))
     dmat = numpy.concatenate((dg, -dg), axis=1)
 
