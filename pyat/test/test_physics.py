@@ -2,7 +2,7 @@ import at
 import numpy
 from numpy.testing import assert_allclose as assert_close
 import pytest
-from at import AtWarning, physics, atpass
+from at import AtWarning, physics, atpass, DConstant
 
 
 DP = 1e-5
@@ -153,6 +153,8 @@ def test_linopt(dba_lattice, refpts):
     lindata0, tune, chrom, lindata = physics.linopt(dba_lattice, DP2, refpts,
                                                     get_chrom=True)
     obs = lindata[-1]
+    assert DConstant.XYStep == 1e-8
+    assert DConstant.DPStep == 1e-6
     # Compare with python
     assert_close(tune,  [ 0.35580463, 0.48848717], rtol=0, atol=1e-8)
     assert_close(chrom, [-3.4288044, -1.59792405], rtol=0, atol=1e-8)

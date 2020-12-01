@@ -28,7 +28,7 @@ def simple_lattice(simple_ring):
     return lattice.Lattice(simple_ring, name='lat', energy=5, periodicity=1)
 
 
-@pytest.fixture(scope='session')
+@pytest.fixture(scope='function')
 def dba_lattice():
     path = os.path.realpath(os.path.join(os.path.dirname(__file__),
                                          '../test_matlab/dba.mat'))
