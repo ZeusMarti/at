@@ -153,8 +153,12 @@ def test_linopt(dba_lattice, refpts):
     lindata0, tune, chrom, lindata = physics.linopt(dba_lattice, DP2, refpts,
                                                     get_chrom=True)
     obs = lindata[-1]
-    assert_close(tune, [0.355804634603528, 0.488487169156732], rtol=1e-8)
-    assert_close(chrom, [-3.429156145429157, -1.597924048635235], rtol=2e-4)
+    # Compare with python
+    assert_close(tune,  [ 0.35580463, 0.48848717], rtol=0, atol=1e-8)
+    assert_close(chrom, [-3.4288044, -1.59792405], rtol=0, atol=1e-8)
+    # Compare with Matlab
+    assert_close(tune, [0.355804634603528, 0.488487169156732], rtol=0, atol=1e-8)
+    assert_close(chrom, [-3.429156145429157, -1.597924048635235], rtol=0, atol=5e-4)
     assert_close(obs['s_pos'], 56.209377216,  atol=1e-9)
     assert_close(obs['closed_orbit'][:5],
                  [0.000426438389644, -0.000000000287482, 0, 0, DP2], atol=1e-12)
